@@ -153,7 +153,7 @@ except mysql.connector.Error as err:
     print("The database does not exist.")
 
   else:
-  print(err)
+    print(err)
 
 #closes db connection
 finally:
