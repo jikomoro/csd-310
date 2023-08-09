@@ -38,7 +38,7 @@ def show_books(_cursor):
   books = _cursor.fetchall()
   print("Book List")
   for book in books:
-    print(Book ID: {}\n Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2], book[3]))
+    print("Book ID: {}\n Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2], book[3]))
 
 def show_locations(_cursor):
   #queries the db for store locations
