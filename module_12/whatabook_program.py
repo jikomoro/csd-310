@@ -22,29 +22,36 @@ config = {
 #create methods
 def show_menu():
   print("\n MAIN MENU")
-  print("\n 1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
+  print("1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
 
 #user input to navigate the program
   try:
     choice = int(input('Enter your selection: '))
+    
     return choice
   except ValueError:
-    print("Invalid number. Terminating program.\n")
+    print("\n Invalid number. Terminating program.\n")
+    
     sys.exit(0)
 
 def show_books(_cursor):
   #queries the db for book list
   _cursor .execute("SELECT book_id, book_name, author, book_details FROM book")
+  
   books = _cursor.fetchall()
+  
   print("Book List")
   for book in books:
-    print("Book ID: {}\n Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2], book[3]))
+    print("Book ID: {}\n Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2]))
 
 def show_locations(_cursor):
   #queries the db for store locations
-  _cursor .execute("SELECT store_id, locale FROM store")
+  _cursor.execute("SELECT store_id, locale FROM store")
+  
   locations = _cursor.fetchall()
+  
   print("Store Locations")
+  
   for location in locations:
     print("Locale: {}\n".format(location[1]))
 
@@ -60,6 +67,7 @@ def validate_user():
     return user_id
   except ValueError:
     print("\n Invalid option. Terminating program.")
+    
     sys.exit(0)
 
 def show_account_menu():
@@ -68,9 +76,11 @@ def show_account_menu():
     print("\n Customer Menu")
     print("  1. Wishlist\n  2. Add Book\n  3. Main Menu")
     account_option = int(input(' Enter your selection: '))
+    
     return account_option
   except ValueError:
     print("Invalid number. Terminating program.\n")
+    
     sys.exit(0)
 
 def show_wishlist(_cursor, _user_id):
@@ -81,6 +91,7 @@ def show_wishlist(_cursor, _user_id):
                   "INNER JOIN user ON wishlist.user_id = user.user_id " +
                   "INNER JOIN book ON wishlist.book_id = book.book_id " +
                   "WHERE user.user_id = {}".format(_user_id))
+  
   wishlist = _cursor.fetchall()
 
   print("\n Wishlist Items")
@@ -90,12 +101,16 @@ def show_wishlist(_cursor, _user_id):
 
 def show_books_to_add(_cursor, _user_id):
   #queries db for books not in user wishlist with NOT IN
-  query = ("SELECT book_id, book_name, author, book_details FROM book WHERE book_id NOT IN (SELECT book_id FROM wishlist WHERE user_id = {})".format(_user_id))
+  query = ("SELECT book_id, book_name, author, book_details "
+           "FROM book "
+           "WHERE book_id NOT IN (SELECT book_id FROM wishlist WHERE user_id = {})".format(_user_id))
+  
   print(query)
 
   _cursor.execute(query)
 
   books_to_add = _cursor.fetchall()
+  
   print("\n Available Books")
 
   for book in books_to_add:
@@ -107,10 +122,15 @@ def add_book_to_wishlist(_cursor, _user_id, _book_id):
 try:
   #handles errors when connecting to db
   db = mysql.connector.connect(**config)
+  
   cursor = db.cursor()
+  
   print("Welcome to the WhatABook App!")
+  
   user_selection = show_menu()
+  
   while user_selection != 4:
+    
     if user_selection == 1:
       show_books(cursor) #displays books
 
@@ -123,14 +143,20 @@ try:
 
       #shows wishlist and adds items to wishlist
       while account_option != 3:
+        
         if account_option == 1:
           show_wishlist(cursor, my_user_id)
+          
         if account_option == 2:
+          
           show_books_to_add(cursor, my_user_id)
+          
           book_id = int(input("\n Enter the ID of the book you want to add to the wishlist: "))
+          
           add_book_to_wishlist(cursor, my_user_id, book_id)
 
           db.commit()
+          
           print("\n Book ID: {} was added to the wishlist.".format(book_id))
 
           #if input is invalid
@@ -146,6 +172,7 @@ try:
 
 #handles errors
 except mysql.connector.Error as err:
+  
   if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
     print("The username or password is invalid.")
 
@@ -157,4 +184,5 @@ except mysql.connector.Error as err:
 
 #closes db connection
 finally:
+  
   db.close()
