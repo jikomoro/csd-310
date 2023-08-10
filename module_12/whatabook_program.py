@@ -22,7 +22,7 @@ config = {
 #create methods
 def show_menu():
   print("\n MAIN MENU")
-  print("1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
+  print("\n 1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
 
 #user input to navigate the program
   try:
@@ -36,13 +36,13 @@ def show_menu():
 
 def show_books(_cursor):
   #queries the db for book list
-  _cursor .execute("SELECT book_id, book_name, author, book_details FROM book")
+  _cursor.execute("SELECT book_id, book_name, author, book_details FROM book")
   
   books = _cursor.fetchall()
   
   print("Book List")
   for book in books:
-    print("Book ID: {}\n Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2]))
+    print("Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2]))
 
 def show_locations(_cursor):
   #queries the db for store locations
@@ -65,6 +65,7 @@ def validate_user():
       sys.exit(0)
 
     return user_id
+  
   except ValueError:
     print("\n Invalid option. Terminating program.")
     
@@ -94,7 +95,7 @@ def show_wishlist(_cursor, _user_id):
   
   wishlist = _cursor.fetchall()
 
-  print("\n Wishlist Items")
+  print("\n Displaying Wishlist Items")
 
   for book in wishlist:
     print("\n Book Name: {}\n Author: {}\n".format(book[4], book[5]))
