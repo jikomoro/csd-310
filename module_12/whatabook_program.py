@@ -22,14 +22,12 @@ config = {
 #create methods
 def show_menu():
   print("\n MAIN MENU")
-  print("1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
+  print("1. View Books\n2. View Store Locations\n3. My Account\n4. Exit")
 
 #user input to navigate the program
   try:
     option = int(input("Enter your selection: "))
-  
     return option
-  
   except ValueError:
     print("\n Invalid number. Terminating program.\n")
     sys.exit(0)
@@ -53,7 +51,7 @@ def show_locations(_cursor):
   print("Store Locations")
   
   for location in locations:
-    print("Locale: {}\n".format(location[1]))
+    print("Store ID: {}\n Locale: {}\n".format(location[0], location[1]))
 
 def validate_user():
   #validates user ID
@@ -63,19 +61,17 @@ def validate_user():
     if user_id < 0 or user_id > 3:
       print("\n Invalid customer ID. Terminating program.\n")
       sys.exit(0)
-
     return user_id
   
   except ValueError:
     print("\n Invalid option. Terminating program.")
-    
     sys.exit(0)
 
 def show_account_menu():
   #displays user account menu
   try:
     print("\n Customer Menu")
-    print("  1. Wishlist\n  2. Add Book\n  3. Main Menu")
+    print("1. Wishlist\n  2. Add Book\n  3. Main Menu")
     wishlist_option = int(input(' Enter your selection: '))
     return wishlist_option
     
@@ -83,8 +79,6 @@ def show_account_menu():
     print("Invalid number. Terminating program.\n")
     
     sys.exit(0)
-    
-  return wishlist_option
 
 def show_wishlist(_cursor, _user_id):
   #queries db for books added to the user wishlist
@@ -107,15 +101,11 @@ def show_books_to_add(_cursor, _user_id):
   query = ("SELECT book_id, book_name, author, book_details "
            "FROM book "
            "WHERE book_id NOT IN (SELECT book_id FROM wishlist WHERE user_id = {})".format(_user_id))
-  
-  print(query)
 
   _cursor.execute(query)
-
   books_to_add = _cursor.fetchall()
   
   print("\n Available Books")
-
   for book in books_to_add:
     print("Book ID: {}\n  Book Name: {}\n".format(book[0], book[1]))
 
@@ -136,10 +126,10 @@ try:
     if user_selection == 1:
       show_books(cursor) #displays books
 
-    if user_selection == 2:
+    elif user_selection == 2:
       show_locations(cursor) #displays location
 
-    if user_selection == 3:
+    elif user_selection == 3:
       my_user_id = validate_user()
       account_option = show_account_menu() #displays account menu
 
@@ -149,7 +139,7 @@ try:
         if account_option == 1:
           show_wishlist(cursor, my_user_id)
           
-        if account_option == 2:
+        elif account_option == 2:
           
           show_books_to_add(cursor, my_user_id)
           
@@ -161,17 +151,13 @@ try:
           
           print("\n Book ID: {} was added to the wishlist.".format(book_id))
 
-          #if input is invalid
-        if account_option <0 or account_option>3:
+        else:
           print("\n Invalid option. Please input a valid option.")
+        account_option = show_account_menu()
 
-          account_option = show_account_menu()
-
-      if user_selection<0 or user_selection>4:
-        print("\n Invalid option. Please input a valid option.")
-
-      user_selection = show_menu()
-    sys.exit(0)
+    else:
+      print("\n Invalid option. Please input a valid option.")
+    user_selection = show_menu()
 
 #handles errors
 except mysql.connector.Error as err:
