@@ -26,9 +26,9 @@ def show_menu():
 
 #user input to navigate the program
   try:
-    choice = int(input('Enter your selection: '))
+    option = int(input("Enter your selection: "))
   
-    return choice
+    return option
   
   except ValueError:
     print("\n Invalid number. Terminating program.\n")
@@ -58,7 +58,7 @@ def show_locations(_cursor):
 def validate_user():
   #validates user ID
   try:
-    user_id = int(input('\n Enter a customer ID: '))
+    user_id = int(input("\n Enter customer ID: "))
     
     if user_id < 0 or user_id > 3:
       print("\n Invalid customer ID. Terminating program.\n")
@@ -76,13 +76,15 @@ def show_account_menu():
   try:
     print("\n Customer Menu")
     print("  1. Wishlist\n  2. Add Book\n  3. Main Menu")
-    account_option = int(input(' Enter your selection: '))
+    wishlist_option = int(input(' Enter your selection: '))
+    return wishlist_option
     
-    return account_option
   except ValueError:
     print("Invalid number. Terminating program.\n")
     
     sys.exit(0)
+    
+  return wishlist_option
 
 def show_wishlist(_cursor, _user_id):
   #queries db for books added to the user wishlist
@@ -98,7 +100,7 @@ def show_wishlist(_cursor, _user_id):
   print("\n Displaying Wishlist Items")
 
   for book in wishlist:
-    print("\n Book Name: {}\n Author: {}\n".format(book[4], book[5]))
+    print("Book Name: {}\n Author: {}\n".format(book[4], book[5]))
 
 def show_books_to_add(_cursor, _user_id):
   #queries db for books not in user wishlist with NOT IN
@@ -115,7 +117,7 @@ def show_books_to_add(_cursor, _user_id):
   print("\n Available Books")
 
   for book in books_to_add:
-    print("\n Book ID: {}\n  Book Name: {}\n".format(book[0], book[1]))
+    print("Book ID: {}\n  Book Name: {}\n".format(book[0], book[1]))
 
 def add_book_to_wishlist(_cursor, _user_id, _book_id):
   _cursor.execute("INSERT INTO wishlist(user_id, book_id) VALUES({}, {})".format(_user_id, _book_id))
@@ -151,7 +153,7 @@ try:
           
           show_books_to_add(cursor, my_user_id)
           
-          book_id = int(input("\n Enter the ID of the book you want to add to the wishlist: "))
+          book_id = int(input("\n Enter the ID of the book you want to add: "))
           
           add_book_to_wishlist(cursor, my_user_id, book_id)
 
@@ -160,15 +162,16 @@ try:
           print("\n Book ID: {} was added to the wishlist.".format(book_id))
 
           #if input is invalid
-          if account_option < 0 or account_option > 3:
-            print("\n Invalid option. Please input a valid option.")
+        if account_option <0 or account_option>3:
+          print("\n Invalid option. Please input a valid option.")
 
           account_option = show_account_menu()
 
-      if user_selection<0 or user_selection > 4:
+      if user_selection<0 or user_selection>4:
         print("\n Invalid option. Please input a valid option.")
 
       user_selection = show_menu()
+    sys.exit(0)
 
 #handles errors
 except mysql.connector.Error as err:
