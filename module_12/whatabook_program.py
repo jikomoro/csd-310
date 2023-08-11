@@ -22,21 +22,21 @@ config = {
 #create methods
 def show_menu():
   print("\n MAIN MENU")
-  print("\n 1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
+  print("1. View Books\n  2. View Store Locations\n  3. My Account\n  4. Exit")
 
 #user input to navigate the program
   try:
     choice = int(input('Enter your selection: '))
-    
+  
     return choice
+  
   except ValueError:
     print("\n Invalid number. Terminating program.\n")
-    
     sys.exit(0)
 
 def show_books(_cursor):
   #queries the db for book list
-  _cursor.execute("SELECT book_id, book_name, author, book_details FROM book")
+  _cursor.execute("SELECT book_id, book_name, author, details FROM book")
   
   books = _cursor.fetchall()
   
@@ -131,7 +131,6 @@ try:
   user_selection = show_menu()
   
   while user_selection != 4:
-    
     if user_selection == 1:
       show_books(cursor) #displays books
 
@@ -166,7 +165,7 @@ try:
 
           account_option = show_account_menu()
 
-      if user_selection < 0 or user_selection > 4:
+      if user_selection<0 or user_selection > 4:
         print("\n Invalid option. Please input a valid option.")
 
       user_selection = show_menu()
