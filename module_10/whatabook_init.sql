@@ -13,15 +13,15 @@ CREATE USER 'whatabook_user'@'localhost' IDENTIFIED WITH mysql_native_password B
 
 -- creating tables
 CREATE TABLE user (
-  user_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  first_name VARCHAR(75) NOT NULL,
-  last_name VARCHAR(75) NOT NULL
+  user_id      INT          NOT NULL  AUTO_INCREMENT  PRIMARY KEY,
+  first_name   VARCHAR(75)  NOT NULL,
+  last_name    VARCHAR(75)  NOT NULL
   );
 
 CREATE TABLE wishlist (
   wishlist_id INT NOT NULL AUTO_INCREMENT,
-  user_id INT NOT NULL,
-  book_id INT NOT NULL,
+  user_id     INT NOT NULL,
+  book_id     INT NOT NULL,
   PRIMARY KEY (wishlist_id),
   CONSTRAINT fk_book
   FOREIGN KEY (book_id) REFERENCES book(book_id),
@@ -30,50 +30,50 @@ CREATE TABLE wishlist (
   );
 
 CREATE TABLE book (
-  book_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  book_id   INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
   book_name VARCHAR(200) NOT NULL,
-  book_details VARCHAR(500),
-  author VARCHAR(200) NOT NULL
+  details   VARCHAR(500),
+  author    VARCHAR(200) NOT NULL
   );
 
 CREATE TABLE store (
-  store_id INT NOT NULL PRIMARY KEY,
-  locale VARCHAR(500) NOT NULL
+  store_id INT          NOT NULL PRIMARY KEY,
+  locale   VARCHAR(500) NOT NULL
   );
 
--- INSERT INTO store
-INSERT IGNORE INTO store(locale)
+-- creating store
+INSERT INTO store(locale)
   VALUES('123 Book St., Orange, CA 92000');
 
--- INSERT INTO books
-INSERT IGNORE INTO book(book_name, author)
+-- populating book list
+INSERT INTO book(book_name, author)
   VALUES('A Game of Thrones', 'George R.R. Martin');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('A Clash of Kings', 'George R.R. Martin');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('The Magicians Nephew', 'C.S. Lewis');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('The Horse and His Boy', 'C.S. Lewis');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('Prince Caspian', 'C.S. Lewis');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('Revolution', 'Jennifer Donnelly');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('The Tea Rose', 'Jennifer Donnelly');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('A Thousand Splendid Suns', 'Khaled Hosseini');
 
-INSERT IGNORE INTO book(book_name, author)
+INSERT INTO book(book_name, author)
   VALUES('And the Mountains Echoed', 'Khaled Hosseini');
 
--- INSERT INTO users
+-- creating application users
 INSERT INTO user(first_name, last_name)
   VALUES('Eustace', 'Scrubb');
 
