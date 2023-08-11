@@ -40,7 +40,7 @@ def show_books(_cursor):
   
   print("Book List")
   for book in books:
-    print("Book Name: {}\n Author: {}\n Book Details: {}\n".format(book[0], book[1], book[2]))
+    print("Book Name: {}\nAuthor: {}\nBook Details: {}\n".format(book[0], book[1], book[2]))
 
 def show_locations(_cursor):
   #queries the db for store locations
@@ -48,10 +48,10 @@ def show_locations(_cursor):
   
   locations = _cursor.fetchall()
   
-  print("Store Locations")
+  print("\nStore Locations")
   
   for location in locations:
-    print("Store ID: {}\n Locale: {}\n".format(location[0], location[1]))
+    print("Store ID: {}\nLocale: {}\n".format(location[0], location[1]))
 
 def validate_user():
   #validates user ID
@@ -71,7 +71,7 @@ def show_account_menu():
   #displays user account menu
   try:
     print("\n Customer Menu")
-    print("1. Wishlist\n  2. Add Book\n  3. Main Menu")
+    print("1. Wishlist\n2. Add Book\n3. Main Menu")
     wishlist_option = int(input(' Enter your selection: '))
     return wishlist_option
     
@@ -94,7 +94,7 @@ def show_wishlist(_cursor, _user_id):
   print("\n Displaying Wishlist Items")
 
   for book in wishlist:
-    print("Book Name: {}\n Author: {}\n".format(book[4], book[5]))
+    print("Book Name: {}\nAuthor: {}\n".format(book[4], book[5]))
 
 def show_books_to_add(_cursor, _user_id):
   #queries db for books not in user wishlist with NOT IN
@@ -107,7 +107,7 @@ def show_books_to_add(_cursor, _user_id):
   
   print("\n Available Books")
   for book in books_to_add:
-    print("Book ID: {}\n  Book Name: {}\n".format(book[0], book[1]))
+    print("Book ID: {}\nBook Name: {}\n".format(book[0], book[1]))
 
 def add_book_to_wishlist(_cursor, _user_id, _book_id):
   _cursor.execute("INSERT INTO wishlist(user_id, book_id) VALUES({}, {})".format(_user_id, _book_id))
