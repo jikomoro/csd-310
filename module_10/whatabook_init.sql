@@ -8,8 +8,11 @@ Description: WhatABook script
 -- creating database
 CREATE DATABASE whatabook;
 
--- creating new user
+USE whatabook;
+
+-- creating new user with all privileges
 CREATE USER 'whatabook_user'@'localhost' IDENTIFIED WITH mysql_native_password BY 'MySQL8IsGreat!';
+GRANT ALL PRIVILEGES ON whatabook.* TO 'whatabook_user'@'localhost';
 
 -- creating tables
 CREATE TABLE user (
